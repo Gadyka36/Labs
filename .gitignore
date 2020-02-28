@@ -13,3 +13,7 @@
 *.la
 *.a
 *.lib
+# Trash
+main
+makefile~
+geometry.cpp~
