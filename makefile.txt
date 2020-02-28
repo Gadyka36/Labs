@@ -1,0 +1,3 @@
+all: geometry.cpp
+    g++ -o all geometry.cpp 
+
