@@ -1,0 +1,15 @@
+# Prerequisites
+*.d
+# compiled object files
+*.slo
+*.lp
+*.o
+*.obj
+# Precompiled files
+*.gch
+*.pch
+# Compiled static libraries
+*.lai
+*.la
+*.a
+*.lib
