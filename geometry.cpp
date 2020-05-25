@@ -1,54 +1,82 @@
+#include "geometry.hpp"
+#include "Circle.hpp"
+#include "Triangle.hpp"
+#include <algorithm>
+#include <cmath>
+#include <ctime>
 #include <iostream>
-#include <math.h>
+#include <locale>
+#include <sstream>
+#include <string>
+#include <vector>
+
 using namespace std;
 
-void GetCoord(int x, int y, int r)
+void geometry()
 {
-    cout << "circle(" << x << " " << y << ", " << r << ")" << endl;
-}
+    int amountOfFigures = 0;
+    vector<string> str;
+    string temp = "";
+    string fgname = "";
 
-float Perimeter(int r)
-{
-    float perimeter = 2 * 3.14 * r;
-    return perimeter;
-}
+    vector<double> coord;
+    stringstream el;
 
-float Area(int r)
-{
-    float area = 3.14 * r * r;
-    return area;
-}
+    cout << "Enter the number of figures: ";
+    cin >> amountOfFigures;
 
-int Intersection(int x, int y, int r, int x1, int y1, int r1)
-{
-    double d = sqrt(pow(x1 - x, 2) + pow(y1 - y, 2));
-    if (d == 0 && r == r1)
-        return 1;
-    if (r + r1 >= d && r + d >= r1 && r1 + d >= r)
-        return 1;
-    else
-        return 0;
-}
+    for (int i = 0; i <= amountOfFigures; ++i) {
+        getline(cin, temp);
+        if (temp.length())
+            str.push_back(temp);
+    }
+    cout << endl << endl;
 
-int main()
-{
-    int x, y, r, x1, y1, r1;
-    cout << "Enter coordinates of first circle: ";
-    cin >> x >> y >> r;
-    cout << "Enter coordinates of second circle: ";
-    cin >> x1 >> y1 >> r1;
+    for (auto temp : str) {
+        transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
+        cout << temp << ":" << endl;
 
-    cout << "1. ";
-    GetCoord(x, y, r);
-    cout << "\nArea: " << Area(r) << "\nPerimeter: " << Perimeter(r) << endl;
-    if (Intersection(x, y, r, x1, y1, r1))
-        cout << "intersects:\n\t2. circle" << endl;
+        if (temp.find("((") != temp.npos) {
+            fgname = temp.substr(0, temp.find("(("));
+            temp.erase(0, temp.find("((") + 2);
+        }
+        if (temp.find("(") != temp.npos) {
+            fgname = temp.substr(0, temp.find("("));
+            temp.erase(0, temp.find("(") + 1);
+        }
+        if (temp.find("))") != temp.npos) {
+            temp.erase(temp.find("))"), temp.size());
+        }
+        if (temp.find(")") != temp.npos) {
+            temp.erase(temp.find(")"), temp.size());
+        }
 
-    cout << "2. ";
-    GetCoord(x1, y1, r1);
-    cout << "\nArea: " << Area(r1) << "\nPerimeter: " << Perimeter(r1) << endl;
-    if (Intersection(x, y, r, x1, y1, r1))
-        cout << "intersects:\n\t1. circle" << endl;
+        unsigned int i = 0;
 
-    return 0;
+        while (i < temp.size()) {
+            while (i < temp.size() && temp[i] != ',') {
+                while (i < temp.size() && temp[i] != ' ') {
+                    el << temp[i];
+                    i++;
+                }
+                coord.push_back(stod(el.str()));
+                el.str().resize(0);
+                el.str().clear();
+                el.str("");
+                i++;
+            }
+            i++;
+        }
+
+        if (fgname == "circle" || fgname == "Circle") {
+            Circle circle(coord[2], make_pair(coord[0], coord[1]));
+            circle.cPrint();
+        } else if (fgname == "triangle" || fgname == "Triangle") {
+            Triangle triangle(coord);
+            triangle.tPrint();
+        } else {
+            cout << "Error: unknown shape" << '\'' << fgname << '\'';
+        }
+        cout << endl;
+    }
 }
