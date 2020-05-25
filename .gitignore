@@ -1,19 +1,31 @@
 # Prerequisites
 *.d
-# compiled object files
+
+# Compiled Object files
 *.slo
-*.lp
+*.lo
 *.o
 *.obj
-# Precompiled files
+
+# Precompiled Headers
 *.gch
 *.pch
-# Compiled static libraries
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
 *.lai
 *.la
-*.a
 *.lib
-# Trash
-main
-makefile~
-geometry.cpp~
+
+# Executables
+*.exe
+*.out
+*.app
